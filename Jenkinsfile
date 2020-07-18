@@ -22,23 +22,21 @@ pipeline {
 			}
 		}
 
-		// eksctl create cluster \
-		// 				--name CapstoneCluster2 \
-		// 				--nodegroup-name capstone-workers \
-		// 				--node-type t2.small \
-		// 				--nodes 2 \
-		// 				--nodes-min 1 \
-		// 				--nodes-max 4 \
-		// 				--node-ami auto \
-		// 				--region us-east-1 \
-		// 				--zones us-east-1a \
-		// 				--zones us-east-1b
-
 		stage('Create Cluster') {
 			steps {
 				withAWS(region:'us-east-1', credentials:'aws-credentials') {
 					sh '''
-						true
+						eksctl create cluster \
+						--name CapstoneCluster2 \
+						--nodegroup-name capstone-workers \
+						--node-type t2.small \
+						--nodes 2 \
+						--nodes-min 1 \
+						--nodes-max 4 \
+						--node-ami auto \
+						--region us-east-1 \
+						--zones us-east-1a \
+						--zones us-east-1b
 					'''
 				}
 			}
@@ -94,7 +92,7 @@ pipeline {
 			steps {
 				withAWS(region:'us-east-1', credentials:'aws-credentials') {
 					sh '''
-						kubectl apply -f ./blue-controller.yml || true
+						kubectl apply -f ./blue-controller.yml 
 					'''
 				}
 			}
@@ -104,7 +102,7 @@ pipeline {
 			steps {
 				withAWS(region:'us-east-1', credentials:'aws-credentials') {
 					sh '''
-						kubectl apply -f ./green-controller.yml || true
+						kubectl apply -f ./green-controller.yml 
 					'''
 				}
 			}
@@ -114,7 +112,7 @@ pipeline {
 			steps {
 				withAWS(region:'us-east-1', credentials:'aws-credentials') {
 					sh '''
-						kubectl apply -f ./blue-service.yml || true
+						kubectl apply -f ./blue-service.yml 
 					'''
 				}
 			}
@@ -130,7 +128,7 @@ pipeline {
 			steps {
 				withAWS(region:'us-east-1', credentials:'aws-credentials') {
 					sh '''
-						kubectl apply -f ./green-service.yml || true
+						kubectl apply -f ./green-service.yml 
 					'''
 				}
 			}
