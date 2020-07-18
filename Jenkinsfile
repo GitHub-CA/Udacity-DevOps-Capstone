@@ -27,7 +27,7 @@ pipeline {
 				withAWS(region:'us-east-1', credentials:'aws-credentials') {
 					sh '''
 						eksctl create cluster \
-						--name CapstoneCluster2 \
+						--name udacity-capstone \
 						--nodegroup-name capstone-workers \
 						--node-type t2.small \
 						--nodes 2 \
